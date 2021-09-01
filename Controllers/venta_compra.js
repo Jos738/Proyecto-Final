@@ -34,6 +34,7 @@ const venta_compraPost = async (req, res) => {
   });
 };
 
+
 const venta_compraById = async (req, res) => {
   const { id } = req.params
   const venta_compra = await Venta_compra.findById(id)
