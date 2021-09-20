@@ -1,10 +1,9 @@
 import Inventario_animal from "../models/inventario_animal.js";
 
 const INV_ANGet = async (req, res) => {
-  const inventario_animal = await Inventario_animal.find().populate(
-    "raza",
-    "nombre"
-  );
+  const inventario_animal = await Inventario_animal.find()
+    .populate("raza", "nombre")
+    .populate("venta_compra", "total");
   res.json({
     inventario_animal,
   });
@@ -19,10 +18,11 @@ const INV_ANById = async (req, res) => {
 };
 
 const INV_ANPost = async (req, res) => {
-  const { raza, peso_KL, cantidad, color, sexo, litros_leche, edad, N_partos } =
+  const { raza, venta_compra, peso_KL, cantidad, color, sexo, litros_leche, edad, N_partos } =
     req.body;
   const inventario_animal = new Inventario_animal({
     raza,
+    venta_compra,
     peso_KL,
     cantidad,
     color,
