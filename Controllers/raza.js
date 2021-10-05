@@ -6,6 +6,16 @@ const razaGet = async (req, res) => {
     raza,
   });
 };
+const razasearch = async (req, res) => {
+   const {value} = req.query;
+  const raza = await Raza.find({
+    $or: [{ nombre: new RegExp(value, "i") }],
+  })
+ 
+  res.json({
+    raza,
+  });
+};
 
 const razaById = async (req, res) => {
   const { id } = req.params;
@@ -63,4 +73,5 @@ export {
   razaActivar,
   razaDesactivar,
   razaDelete,
+  razasearch,
 };

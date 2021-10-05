@@ -3,6 +3,7 @@ import {
   venta_compraGet,
   venta_compraPost,
   venta_compraById,
+  venta_compracargararchivo,
   venta_compraPut,
   venta_compraActivar,
   venta_compraDesactivar,
@@ -12,6 +13,7 @@ import { validarJWT } from "../middlewares/validar-jwt.js";
 import { existeVenta_compraById } from "../db_helpers/venta_compra.js";
 import { validarCampos } from "../middlewares/validar-campos.js";
 import validator from "express-validator";
+import validarArchivoSubir from "../middlewares/validarArchivoSubir.js";
 const { check } = validator;
 const router = Router();
 
@@ -30,6 +32,18 @@ router.get(
 
 router.post("/", [validarJWT, validarCampos], venta_compraPost);
 
+router.post(
+  "/upload/:id",
+  [
+    validarJWT,
+    check("id", "No es un ID válido").isMongoId(),
+    check("id").custom(existeVenta_compraById),
+    validarCampos,
+    validarArchivoSubir,
+    validarCampos,
+  ],
+  venta_compracargararchivo
+);
 router.put(
   "/:id",
   [

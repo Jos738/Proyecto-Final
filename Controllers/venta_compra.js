@@ -1,5 +1,9 @@
 import Venta_compra from "../models/venta_compra.js";
 import modificarStock from "../db_helpers/modificarStock.js";
+import Subirarchivo from "../db_helpers/subirArchivo.js";
+import path from "path";
+import url from "url";
+import * as fs from "fs";
 
 const venta_compraGet = async (req, res) => {
   const venta_compra = await Venta_compra.find().populate("usuario", "nombre");
@@ -35,6 +39,24 @@ const venta_compraPost = async (req, res) => {
   });
 };
 
+const venta_compracargararchivo = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const nombre = await Subirarchivo(req.files, undefined);
+    let venta_compra = await Venta_compra.findById(id);
+    if (venta_compra.foto) {
+      const _dirname = path.dirname(url.fileURLToPath(import.meta.url));
+      const pathImage = path.join(_dirname, "../upload/", venta_compra.foto);
+      if (fs.existsSync(pathImage)) {
+        fs.unlinkSync(pathImage);
+      }
+    }
+     venta_compra = await Venta_compra.findByIdAndUpdate(id, { foto: nombre });
+    res.json({ nombre });
+  } catch (error) {
+    res.status(400).json({ error });
+  }
+};
 
 const venta_compraById = async (req, res) => {
   const { id } = req.params
@@ -110,6 +132,7 @@ export {
   venta_compraGet,
   venta_compraPost,
   venta_compraById,
+  venta_compracargararchivo,
   venta_compraPut,
   venta_compraActivar,
   venta_compraDesactivar,

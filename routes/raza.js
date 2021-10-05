@@ -7,6 +7,7 @@ import {
   razaActivar,
   razaDesactivar,
   razaDelete,
+  razasearch,
 } from "../Controllers/raza.js";
 import { validarJWT } from "../middlewares/validar-jwt.js";
 import { existeRazaById } from "../db_helpers/raza.js";
@@ -16,6 +17,8 @@ const { check } = validator;
 const router = Router();
 
 router.get("/", [validarJWT, validarCampos], razaGet);
+
+router.get("/", razasearch);
 
 router.get(
   "/:id",
