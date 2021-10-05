@@ -18,7 +18,6 @@ const venta_compraSchema = mongoose.Schema({
       subtotal: { type: Number, required: true },
     },
   ],
-  foto: { type: String },
   estado: { type: Number, default: 1 },
   createdAt: { type: Date, default: Date.now },
 });

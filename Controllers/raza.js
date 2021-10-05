@@ -1,16 +1,10 @@
 import Raza from "../models/raza.js";
 
-const razaGet = async (req, res) => {
-  const raza = await Raza.find();
-  res.json({
-    raza,
-  });
-};
 const razasearch = async (req, res) => {
-   const {value} = req.query;
+  const { value } = req.query;
   const raza = await Raza.find({
     $or: [{ nombre: new RegExp(value, "i") }],
-  })
+  }).sort({createdAt: -1})
  
   res.json({
     raza,
@@ -66,7 +60,6 @@ const razaDelete = async (req, res) => {
   });
 };
 export {
-  razaGet,
   razaById,
   razaPost,
   razaPut,

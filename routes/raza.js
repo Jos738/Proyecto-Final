@@ -1,6 +1,5 @@
 import Router from "express";
 import {
-  razaGet,
   razaById,
   razaPost,
   razaPut,
@@ -16,7 +15,6 @@ import validator from "express-validator";
 const { check } = validator;
 const router = Router();
 
-router.get("/", [validarJWT, validarCampos], razaGet);
 
 router.get("/", razasearch);
 

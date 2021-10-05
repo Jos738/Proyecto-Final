@@ -11,6 +11,7 @@ const inventario_animalSchema = mongoose.Schema({
     ref: "venta_compra",
     required: true,
   },
+  precio: { type: Number, required: true },
   peso_KL: { type: Number, required: true },
   cantidad: { type: Number, required: true },
   color: { type: String, required: true },
@@ -18,6 +19,7 @@ const inventario_animalSchema = mongoose.Schema({
   litros_leche: { type: Number, required: true },
   edad: { type: Number, required: true },
   N_partos: { type: Number, required: true },
+  foto: { type: String },
   estado: { type: Number, default: 1 },
   createdAt: { type: Date, default: Date.now },
 });

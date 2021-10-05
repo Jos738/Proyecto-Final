@@ -1,9 +1,19 @@
 import Router from "express";
-import { INV_ANGet, INV_ANById,INV_ANPost,INV_ANPut,INV_ANActivar,INV_ANDesactivar,INV_ANDelete} from "../Controllers/inventario_animal.js";
+import {
+  INV_ANGet,
+  inventario_animalcargararchivo,
+  INV_ANById,
+  INV_ANPost,
+  INV_ANPut,
+  INV_ANActivar,
+  INV_ANDesactivar,
+  INV_ANDelete,
+} from "../Controllers/inventario_animal.js";
 import { validarJWT } from "../middlewares/validar-jwt.js";
 import { existeInventario_animalById } from "../db_helpers/inventario_animal.js";
 import { validarCampos } from "../middlewares/validar-campos.js";
 import validator from "express-validator";
+import validarArchivoSubir from "../middlewares/validarArchivoSubir.js";
 const { check } = validator;
 const router = Router();
 
@@ -21,7 +31,18 @@ router.get(
 );
 
 
-router.post("/",[validarJWT,validarCampos],INV_ANPost);
+router.post("/", [validarJWT, validarCampos], INV_ANPost);
+router.post(
+  "/upload/:id",
+  [
+    validarArchivoSubir,
+    validarJWT,
+    check("id", "No es un ID valido").isMongoId(),
+    check("id").custom(existeInventario_animalById),
+    validarArchivoSubir,
+  ],
+  inventario_animalcargararchivo
+);
 
 router.put(
   "/:id",
