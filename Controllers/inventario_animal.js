@@ -21,19 +21,14 @@ const INV_ANById = async (req, res) => {
 };
 
 const INV_ANPost = async (req, res) => {
-  const { raza, precio, venta_compra, peso_KL, cantidad, color, sexo, litros_leche, edad, N_partos } =
+  const { raza, precio, venta_compra, cantidad, Descripcion, } =
     req.body;
   const inventario_animal = new Inventario_animal({
     raza,
     precio,
     venta_compra,
-    peso_KL,
     cantidad,
-    color,
-    sexo,
-    litros_leche,
-    edad,
-    N_partos,
+    Descripcion,
   });
   await inventario_animal.save();
   res.json({
